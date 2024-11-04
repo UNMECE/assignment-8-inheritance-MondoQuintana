@@ -25,6 +25,13 @@ public:
         this->value[1]=y;
         this->value[2]=z;
     };
+    Field(Field &Field){
+        value = (double*)malloc(3*sizeof(double));
+        this->value[0]=Field.FieldX();
+        this->value[1]=Field.FieldY();
+        this->value[2]=Field.FieldZ();
+
+    }
     double FieldX(){
         return value[0];
     }
@@ -59,6 +66,7 @@ class Electric_Field:public Field{
     public:
         Electric_Field():Field(){};
         Electric_Field(double x, double y, double z):Field(x,y,z){};
+        Electric_Field(Field Field):Field(Field){};
         double calculateE(){
             double e = Q/4*M_PI*pow(r,2)*8.854e-12;
             return e;
@@ -109,6 +117,7 @@ class Magnetic_Field:public Field{
 
 int main()
 {
+    /*
     Electric_Field Electric_Field1;
     cout<<"EF1 has x = "<<Electric_Field1.FieldX()<<" y = "<<Electric_Field1.FieldY()<< " and z = "<<Electric_Field1.FieldZ()<<endl;
     Electric_Field Electric_Field2(1,2,3);
@@ -125,7 +134,19 @@ int main()
     double MFVALUE = Magnetic_Field1.calculateB();
     Magnetic_Field1.setB(MFVALUE);
     cout<<"B is "<<Magnetic_Field1.getB()<<endl;
-
+    Field a(8,9,5);
+    Field b = a;
+    */
+    Electric_Field a(5,3,4);
+    cout<<"Field a has x = "<<a.FieldX()<<" y = "<<a.FieldY()<< " and z = "<<a.FieldZ()<<endl;
+    Electric_Field b = a;
+    cout<<"Field b has x = "<<b.FieldX()<<" y = "<<b.FieldY()<< " and z = "<<b.FieldZ()<<endl;
+    a.setField(1,2,3);
+    cout<<"Field a has x = "<<a.FieldX()<<" y = "<<a.FieldY()<< " and z = "<<a.FieldZ()<<endl;
+    cout<<"Field b has x = "<<b.FieldX()<<" y = "<<b.FieldY()<< " and z = "<<b.FieldZ()<<endl;
+    b.setField(10,9,8);
+    cout<<"Field a has x = "<<a.FieldX()<<" y = "<<a.FieldY()<< " and z = "<<a.FieldZ()<<endl;
+    cout<<"Field b has x = "<<b.FieldX()<<" y = "<<b.FieldY()<< " and z = "<<b.FieldZ()<<endl;
 
     return 0;
 }
