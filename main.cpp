@@ -25,12 +25,11 @@ public:
         this->value[1]=y;
         this->value[2]=z;
     };
-    Field(Field &Field){
+    Field(Field &field){
         value = (double*)malloc(3*sizeof(double));
-        this->value[0]=Field.FieldX();
-        this->value[1]=Field.FieldY();
-        this->value[2]=Field.FieldZ();
-
+        this->value[0]=field.FieldX();
+        this->value[1]=field.FieldY();
+        this->value[2]=field.FieldZ();
     }
     double FieldX(){
         return value[0];
@@ -51,11 +50,22 @@ public:
         this->value[0] = x;
         this->value[1] = y;
         this->value[2] = z;
+        cout<<"Values Set"<<endl;
+    }
+    Field operator+(Field &field){
+        //value = (double*)malloc(3*sizeof(double));
+        Field F(this->value[0]+field.FieldX(), this->value[1]+field.FieldY(), this->value[2]+field.FieldZ());
+        return F;
     }
     ~Field(){
         free(value);
         cout<<"Memory Free"<<endl;
     };
+};
+
+ostream &operator<<(ostream &os, Field &field){
+    os<<"X = "<<field.FieldX()<<". Y = "<<field.FieldY()<<". Z = "<<field.FieldZ()<<endl;
+    return os;
 };
 
 class Electric_Field:public Field{
@@ -66,7 +76,10 @@ class Electric_Field:public Field{
     public:
         Electric_Field():Field(){};
         Electric_Field(double x, double y, double z):Field(x,y,z){};
-        Electric_Field(Field Field):Field(Field){};
+        Electric_Field operator+(Electric_Field &field){
+            Electric_Field F(this->FieldX()+field.FieldX(), this->FieldY()+field.FieldY(), this->FieldZ()+field.FieldZ());
+            return F;
+        }
         double calculateE(){
             double e = Q/4*M_PI*pow(r,2)*8.854e-12;
             return e;
@@ -137,7 +150,7 @@ int main()
     Field a(8,9,5);
     Field b = a;
     */
-    Electric_Field a(5,3,4);
+    /*Electric_Field a(5,3,4);
     cout<<"Field a has x = "<<a.FieldX()<<" y = "<<a.FieldY()<< " and z = "<<a.FieldZ()<<endl;
     Electric_Field b = a;
     cout<<"Field b has x = "<<b.FieldX()<<" y = "<<b.FieldY()<< " and z = "<<b.FieldZ()<<endl;
@@ -147,6 +160,15 @@ int main()
     b.setField(10,9,8);
     cout<<"Field a has x = "<<a.FieldX()<<" y = "<<a.FieldY()<< " and z = "<<a.FieldZ()<<endl;
     cout<<"Field b has x = "<<b.FieldX()<<" y = "<<b.FieldY()<< " and z = "<<b.FieldZ()<<endl;
+    cout<<a<<endl;
+    */
+   Electric_Field a, b, c;
+   a.setField(1,2,3);
+   b.setField(1,2,3);
+   cout<<a<<b<<endl;
+   c = a+b;
+   cout<<c<<endl;
+
 
     return 0;
 }
