@@ -108,6 +108,10 @@ class Magnetic_Field:public Field{
     public:
         Magnetic_Field():Field(){};
         Magnetic_Field(double x, double y, double z):Field(x,y,z){};
+        Magnetic_Field operator+(Magnetic_Field &field){
+            Magnetic_Field F(this->FieldX()+field.FieldX(), this->FieldY()+field.FieldY(), this->FieldZ()+field.FieldZ());
+            return F;
+        }
         double calculateB(){
             double b = I/2*M_PI*r*12.533e-7;
             return b;
@@ -130,7 +134,7 @@ class Magnetic_Field:public Field{
 
 int main()
 {
-    /*
+    
     Electric_Field Electric_Field1;
     cout<<"EF1 has x = "<<Electric_Field1.FieldX()<<" y = "<<Electric_Field1.FieldY()<< " and z = "<<Electric_Field1.FieldZ()<<endl;
     Electric_Field Electric_Field2(1,2,3);
@@ -142,32 +146,27 @@ int main()
     Electric_Field2.setE(EFVALUE);
     cout<<"E is "<<Electric_Field2.getE()<<endl;
     Magnetic_Field Magnetic_Field1(1,2,3);
+    cout<<"Mag Field 1 = "<<Magnetic_Field1<<endl;
     Magnetic_Field1.setI(1e5);
     Magnetic_Field1.setr(10.9);
     double MFVALUE = Magnetic_Field1.calculateB();
     Magnetic_Field1.setB(MFVALUE);
     cout<<"B is "<<Magnetic_Field1.getB()<<endl;
-    Field a(8,9,5);
-    Field b = a;
-    */
-    /*Electric_Field a(5,3,4);
-    cout<<"Field a has x = "<<a.FieldX()<<" y = "<<a.FieldY()<< " and z = "<<a.FieldZ()<<endl;
-    Electric_Field b = a;
-    cout<<"Field b has x = "<<b.FieldX()<<" y = "<<b.FieldY()<< " and z = "<<b.FieldZ()<<endl;
-    a.setField(1,2,3);
-    cout<<"Field a has x = "<<a.FieldX()<<" y = "<<a.FieldY()<< " and z = "<<a.FieldZ()<<endl;
-    cout<<"Field b has x = "<<b.FieldX()<<" y = "<<b.FieldY()<< " and z = "<<b.FieldZ()<<endl;
-    b.setField(10,9,8);
-    cout<<"Field a has x = "<<a.FieldX()<<" y = "<<a.FieldY()<< " and z = "<<a.FieldZ()<<endl;
-    cout<<"Field b has x = "<<b.FieldX()<<" y = "<<b.FieldY()<< " and z = "<<b.FieldZ()<<endl;
-    cout<<a<<endl;
-    */
-   Electric_Field a, b, c;
-   a.setField(1,2,3);
-   b.setField(1,2,3);
-   cout<<a<<b<<endl;
-   c = a+b;
-   cout<<c<<endl;
+    Electric_Field e;
+    cout<<"Electric Field e has x = "<<e.FieldX()<<" y = "<<e.FieldY()<< " and z = "<<e.FieldZ()<<endl;
+    e = Electric_Field2;
+    cout<<"e has been set to EF2 "<<e<<endl;
+    Magnetic_Field m;
+    cout<<"Mag Field M "<<m<<endl;
+    m = Magnetic_Field1;
+    cout<<"M has been set to MF1"<<m<<endl;
+    Electric_Field z;
+    Magnetic_Field x;
+    cout<<"Elec Field z and Mag Field x initialized with default values"<<endl;
+    z = Electric_Field2 + e;
+    x = Magnetic_Field1 + m;
+    cout<<"z = EF2 + e "<<z<<endl;
+    cout<<"x = MF1 + m "<<x<<endl;
 
 
     return 0;
